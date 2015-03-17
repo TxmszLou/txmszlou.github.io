@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>TmzLity - Hello World!</title>
+        <title>TmzLity - Getting to use Emacs (wat?)</title>
         <!-- Bootstrap css -->
         <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,7 +13,6 @@
          <link href="../css/no-transition.css" rel="stylesheet">
          <link href="../css/default.css" rel="stylesheet">
          <link href="../css/hk-pyg.css" rel="stylesheet">
-         <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic|Source+Code+Pro:400,700" rel="stylesheet">
          <script type="text/javascript">
              var switchTo5x=true;
          </script>
@@ -56,36 +55,42 @@
             
             <div id="content">
                 <div class="page-header"">
-                    <h1>Hello World!</h1>
+                    <h1>Getting to use Emacs (wat?)</h1>
                 </div>
                 <div class="info">
-    Posted on August 18, 2013
+    Posted on March 16, 2015
     
 </div>
 <div class="info">
     
-    Tags: <a href="../tags/by%20talk.html">by talk</a>
+    Tags: <a href="../tags/Emacs.html">Emacs</a>
     
 </div>
 
-<blockquote>
-<h2>Hello World!</h2>
-<h2>这是一个新的开始!</h2>
-</blockquote>
-<hr />
-<h1 id="x00-why-jekyll">0x00 Why Jekyll?</h1>
-<p>在我刚开博客时记得也写过这样一段话</p>
-<p>当时由于wordpress的简易型而选择了wordpress</p>
-<p>在使用几个月后就发现了wordpress的臃肿以及难以维护的缺点…</p>
-<p>另一个迁移jekyll的原因是jekyll的博客代码由github接管,</p>
-<p>并支持git备份，比自己找服务器更稳定以及方便</p>
-<p>由于支持git备份，在jekyll下写博客可以离开网络</p>
-<p>这也许是一个对晚自修网络不稳定的解决方案…</p>
-<p>本次迁移会保存原始博客的一些优质文章</p>
-<p>杂谈什么的就抛弃了ˊ_&gt;ˋ</p>
-<hr />
-<p>另外在jekyll的建立途中，各种问题几乎都被我遇到了(＃°Д°) 今后会发帖总结.</p>
-<p>以上, el psy congroo.</p>
+<p>It’s actually an interesting experience of trying to use something you’ve long heard of but just don’t want to do it…</p>
+<p>I, as a VIM user, is always too lazy to try out the well-known editor Emacs. Again, I’m not a fan of taking part in the war between editors, they are just editors after all, why bother spending extra time to get used to something that you might not even going to use it often? Although I’m still holding that opinion, I think it’s sometimes a good idea just to learn something.</p>
+<p>So I recently started to use Emacs as I began to read SICP and trying to learn Scheme.</p>
+<p>To be honest, I haven’t went through most Emacs maunals yet (get that done real quick!).</p>
+<p>But, here are just some of my current configurations anyway (for future reference):</p>
+<pre class="sourceCode scheme"><code class="sourceCode scheme">(require-package 'evil) <span class="co">;; I need it!</span>
+
+(setq evil-search-module 'evil-search
+      evil-want-C-u-scroll t
+      evil-want-C-w-in-emacs-state t)
+
+(require 'evil)
+(evil-mode t)
+
+(setq show-paren-delay <span class="dv">0</span>
+      show-paren-style 'parenthesis)
+(show-paren-mode <span class="dv">1</span>) <span class="co">;; match paren: high light</span>
+
+(require 'autopair)
+(autopair-global-mode) <span class="co">;; auto complete paren                                                                                                                             </span>
+
+(global-font-lock-mode <span class="dv">1</span>) <span class="co">;; syntax high lighting                                                                                                                         </span>
+
+(setq scheme-program-name <span class="st">&quot;scheme&quot;</span>) <span class="co">;; bind interpreter</span></code></pre>
 
             </div>
 

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>TmzLity - AR project in Android</title>
+        <title>TmzLity - [Zh] appvar in axe</title>
         <!-- Bootstrap css -->
         <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,7 +13,6 @@
          <link href="../css/no-transition.css" rel="stylesheet">
          <link href="../css/default.css" rel="stylesheet">
          <link href="../css/hk-pyg.css" rel="stylesheet">
-         <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic|Source+Code+Pro:400,700" rel="stylesheet">
          <script type="text/javascript">
              var switchTo5x=true;
          </script>
@@ -56,48 +55,45 @@
             
             <div id="content">
                 <div class="page-header"">
-                    <h1>AR project in Android</h1>
+                    <h1>[Zh] appvar in axe</h1>
                 </div>
                 <div class="info">
-    Posted on May  5, 2013
+    Posted on December 26, 2013
     
 </div>
 <div class="info">
     
-    Tags: <a href="../tags/Android.html">Android</a>, <a href="../tags/development.html">development</a>
+    Tags: <a href="../tags/Ti83/84.html">Ti83/84</a>
     
 </div>
 
-<blockquote>
-<h4>ARdriod Beta Ver1.93 released</h4>
-<h4>2013/05/24</h4>
-<p>Beta Ver1.93 download link： http://pan.baidu.com/share/link?shareid=536124&amp;uk=2768330166</p>
-</blockquote>
-<div class="figure">
-<img src="../image/christina1.png" alt="christina" /><p class="caption">christina</p>
-</div>
-<p>Well, in high school, what’s spare time?</p>
-<p>It took me too long to find time making this prototype…</p>
-<ul>
-<li>Rewrite app’s wraps</li>
-<li>Rewrite the web view</li>
-</ul>
-<p>What’s <a href="http://en.wikipedia.org/wiki/Augmented_reality">Augmented Reality</a>?</p>
-<h3 id="brief-introduction">Brief introduction:</h3>
-<p>This small allow you to track views from smartphone’s camera.</p>
-<p>If the desired image(token) is found through the camera, it will display a 3d model on to the screen.</p>
-<p>The screen view of the 3d model will change according to the relative position of the token image and the camera.</p>
-<p>Thanks anynomous for the 3d model of Christina.</p>
-<h3 id="how">How?</h3>
-<p>After installing the app, open it and begin tracking by pressing “START!!” button.</p>
-<p>Point the camera to the token image. (Here I used nVidia’s logo (￣▽￣”)).</p>
-<p>Tab the “christina” button to display the 3d model.</p>
-<p>ARdriod Alpha Ver.1.23 DEMO 2013/05/05</p>
-<div class="figure">
-<img src="../image/christina3.png" alt="christina" /><p class="caption">christina</p>
-</div>
-<p>SDK：metaio development kit</p>
-<p>Platform：andriod</p>
+<h1 id="x00-introduction">0X00 INTRODUCTION</h1>
+<p>appvar 是Ti83/84 系列中的一种数据架构，用于储存application运行需要产生，获取的数据。 appvar 与 program 在AXE语言中是可以通过相似的结构读取的。 总而言之，appvar就是Ti83/84提供的一个储存数据的结构</p>
+<h1 id="x01-characteristic">0X01 CHARACTERISTIC</h1>
+<p>appvar 有以下一些特点</p>
+<p>(1)可由8个字符命名 (不可由数字开头)</p>
+<p>(2)不可运行</p>
+<p>(3)可以存入archive,存入后可读不可写</p>
+<!--more-->
+<h1 id="x02-how-to-use-appvar">0x02 how to use appvar?</h1>
+<h2 id="access">Access</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>)<span class="ot">-&gt;</span><span class="dt">Pointer</span>
+<span class="dv">1</span><span class="ot">-&gt;</span><span class="dt">A</span> <span class="co">-- 将数值1通过指针Pointer储存入&quot;appvAPPVAR&quot;中的第一个字节,只当appvAPPVAR在RAM中才有效</span></code></pre>
+<p>“appvAPPVAR”为以创建的appvar名字</p>
+<p>Pointer为创建的指向“appvAPPVAR”的指针</p>
+<h2 id="create">Create</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- 创建appvar</span>
+<span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>,<span class="dt">Size</span>)<span class="ot">-&gt;</span><span class="dt">Pointer</span> <span class="co">-- 创建大小为Size的名为&quot;appvAPPVAR&quot;的appvar,Size 单位为字节</span>
+
+<span class="co">-- 复制现有appvar到Y0,并将指针A指向新创建的appvar</span>
+<span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>,<span class="dt">Y0</span>)  <span class="co">-- Y0 可换为Y0-9任意变量</span>
+{<span class="dt">Y0</span>}<span class="ot">-&gt;</span><span class="dt">A</span>
+
+<span class="co">-- 将 appvar 归档 &amp; 取回RAM</span>
+<span class="dt">Archive</span> <span class="st">&quot;appvAPPVAR&quot;</span>
+<span class="dt">UnArchive</span> <span class="st">&quot;appvAPPVAR&quot;</span></code></pre>
+<h2 id="delete">Delete</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">DelVar</span> <span class="st">&quot;appvAPPVAR&quot;</span> <span class="co">--只当&quot;appvAPPVAR&quot;在RAM中有效</span></code></pre>
 
             </div>
 

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>TmzLity - [Zh] appvar in axe</title>
+        <title>TmzLity - Ti84/83 Game 2048</title>
         <!-- Bootstrap css -->
         <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,7 +13,6 @@
          <link href="../css/no-transition.css" rel="stylesheet">
          <link href="../css/default.css" rel="stylesheet">
          <link href="../css/hk-pyg.css" rel="stylesheet">
-         <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic|Source+Code+Pro:400,700" rel="stylesheet">
          <script type="text/javascript">
              var switchTo5x=true;
          </script>
@@ -56,45 +55,40 @@
             
             <div id="content">
                 <div class="page-header"">
-                    <h1>[Zh] appvar in axe</h1>
+                    <h1>Ti84/83 Game 2048</h1>
                 </div>
                 <div class="info">
-    Posted on December 26, 2013
+    Posted on April  1, 2014
     
 </div>
 <div class="info">
     
-    Tags: <a href="../tags/Ti83/84.html">Ti83/84</a>
+    Tags: <a href="../tags/Ti83/84.html">Ti83/84</a>, <a href="../tags/Game%20Development.html">Game Development</a>
     
 </div>
 
-<h1 id="x00-introduction">0X00 INTRODUCTION</h1>
-<p>appvar 是Ti83/84 系列中的一种数据架构，用于储存application运行需要产生，获取的数据。 appvar 与 program 在AXE语言中是可以通过相似的结构读取的。 总而言之，appvar就是Ti83/84提供的一个储存数据的结构</p>
-<h1 id="x01-characteristic">0X01 CHARACTERISTIC</h1>
-<p>appvar 有以下一些特点</p>
-<p>(1)可由8个字符命名 (不可由数字开头)</p>
-<p>(2)不可运行</p>
-<p>(3)可以存入archive,存入后可读不可写</p>
-<!--more-->
-<h1 id="x02-how-to-use-appvar">0x02 how to use appvar?</h1>
-<h2 id="access">Access</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>)<span class="ot">-&gt;</span><span class="dt">Pointer</span>
-<span class="dv">1</span><span class="ot">-&gt;</span><span class="dt">A</span> <span class="co">-- 将数值1通过指针Pointer储存入&quot;appvAPPVAR&quot;中的第一个字节,只当appvAPPVAR在RAM中才有效</span></code></pre>
-<p>“appvAPPVAR”为以创建的appvar名字</p>
-<p>Pointer为创建的指向“appvAPPVAR”的指针</p>
-<h2 id="create">Create</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- 创建appvar</span>
-<span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>,<span class="dt">Size</span>)<span class="ot">-&gt;</span><span class="dt">Pointer</span> <span class="co">-- 创建大小为Size的名为&quot;appvAPPVAR&quot;的appvar,Size 单位为字节</span>
-
-<span class="co">-- 复制现有appvar到Y0,并将指针A指向新创建的appvar</span>
-<span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>,<span class="dt">Y0</span>)  <span class="co">-- Y0 可换为Y0-9任意变量</span>
-{<span class="dt">Y0</span>}<span class="ot">-&gt;</span><span class="dt">A</span>
-
-<span class="co">-- 将 appvar 归档 &amp; 取回RAM</span>
-<span class="dt">Archive</span> <span class="st">&quot;appvAPPVAR&quot;</span>
-<span class="dt">UnArchive</span> <span class="st">&quot;appvAPPVAR&quot;</span></code></pre>
-<h2 id="delete">Delete</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">DelVar</span> <span class="st">&quot;appvAPPVAR&quot;</span> <span class="co">--只当&quot;appvAPPVAR&quot;在RAM中有效</span></code></pre>
+<h1 id="x00-what-is-2048">0x00 What is 2048?</h1>
+<p>2048 is a html5 game created by <a href="http://gabrielecirulli.com/">Gabriele Cirulli</a>. Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224">1024 by Veewo Studio</a> and conceptually similar to <a href="http://asherv.com/threes/">Threes by Asher Vollmer</a>.</p>
+<h1 id="x01-what-is-2048-ti">0x01 What is 2048-ti?</h1>
+<p>2048-ti is a implementation for the html5 game 2048 on Ti83/84 calc. It simplified the animation while main functions are kept.</p>
+<p>{% limg 2048-ti.gif {“alt”:“2048-Ti”}%}</p>
+<h3 id="github"><a href="https://github.com/ThomazL/2048-Ti83_84">Github</a></h3>
+<h1 id="x02-installiaion">0x02 Installiaion</h1>
+<ol style="list-style-type: decimal">
+<li>Using Ti-connect or other connecting software copy file TWOZERO.8Xp to your Ti83/84 calc.</li>
+<li>Launch the program using built in function Asm(). //Press [2nd]+[0] go to the catalog, function Asm() is on the first page</li>
+</ol>
+<h1 id="x03-for-developers">0x03 For developers</h1>
+<ol style="list-style-type: decimal">
+<li>Get the source code in your calc by transferring P2048SRC.8Xp to your calc.</li>
+<li>Having look at the source code online -&gt; P2048SRC.txt.</li>
+</ol>
+<h1 id="x04-bug-list">0x04 BUG LIST:</h1>
+<ol style="list-style-type: decimal">
+<li>Automatically merge block within one step. (e.g. 4,4,4,4 in a row, after pressing [&lt;-/-&gt;], you might get a single 16 rather than two 8s).</li>
+</ol>
+<h1 id="x05-donate">0x05 Donate:</h1>
+<p>You can buy me a cup of coffee by donate to my BTC address:1F4ma9Hv6F8bApGTjLU8mZ2hixb5eVM5gw</p>
 
             </div>
 

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>TmzLity - Ti84+ rescue log</title>
+        <title>TmzLity - XSRoboLab Division of Works</title>
         <!-- Bootstrap css -->
         <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,7 +13,6 @@
          <link href="../css/no-transition.css" rel="stylesheet">
          <link href="../css/default.css" rel="stylesheet">
          <link href="../css/hk-pyg.css" rel="stylesheet">
-         <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic|Source+Code+Pro:400,700" rel="stylesheet">
          <script type="text/javascript">
              var switchTo5x=true;
          </script>
@@ -56,34 +55,69 @@
             
             <div id="content">
                 <div class="page-header"">
-                    <h1>Ti84+ rescue log</h1>
+                    <h1>XSRoboLab Division of Works</h1>
                 </div>
                 <div class="info">
-    Posted on May 29, 2013
+    Posted on January 21, 2014
     
 </div>
 <div class="info">
     
-    Tags: <a href="../tags/Ti84/83.html">Ti84/83</a>
+    Tags: <a href="../tags/robot.html">robot</a>
     
 </div>
 
-<h1 id="x00-如何故障">0x00 如何故障？</h1>
-<p>使用zstart时在一块ram上运行了程序之后产生的故障.</p>
-<h1 id="x01-故障现象">0x01 故障现象</h1>
-<p>(1)在摁下“ON”键后屏幕显示“Ti-84 plus 2.55MP”.然后断电.</p>
-<p>(2)更换电池无效.</p>
-<p>(3)连接PC端反应与摁下“ON”键相同.</p>
-<h1 id="x02-解决方案">0x02 解决方案</h1>
-<p>(1)用USB线将计算器与PC连接.</p>
-<p>(2)拔出电池.</p>
-<p>(3)按住“DEL”键(此时计算器处于无电源供应状态).</p>
-<p>(4)塞入电池(此过程中按住“DEL”键不放).</p>
-<p>(5)等待出现“waiting for an operating system transfer”提示(如果长时间没出现尝试按下“ON”键).</p>
-<p>(6)通过Ti-connect将操作系统下载入计算器.</p>
-<p>(7)复活！</p>
-<h1 id="x03-修复后现象描述">0x03 修复后现象描述</h1>
-<p></br> 无数据丢失！ ===================</p>
+<h1 id="x00-任务简述-分析">0x00 任务简述 &amp; 分析:</h1>
+<p>[1] 战略阵地争夺战:在平面场地中完成,要求机器人自主完成</p>
+<pre><code>(1.1)路径寻迹
+
+(1.2)障碍物距离探测
+
+(1.3)运动</code></pre>
+<p>[2] “能量球”争夺赛:在三维模拟火星场地上完成,要求机器人采用遥控方式完成任务.</p>
+<pre><code>(2.1)3维运动(不平整路面)
+
+(2.2)远程操控
+
+(2.3)取物(d:5.1cm 圆球)
+
+(2.3)运动</code></pre>
+<!--more-->
+<h1 id="x01-分工">0x01 分工:</h1>
+<h3 id="机器人建造">(1)机器人建造:</h3>
+<pre><code>(1.1)机器人外形设计
+
+(1.2)程序设计
+
+     逻辑设计:接收传感器信息，发送信息至电机
+
+     任务:如何避障？如何高效率处理信息?...
+
+(1.3)传感器设计
+
+     硬件+信息发送
+
+     传感器种类，用途，原理了解
+
+(1.4)电机设计
+
+     硬件+信息接收
+
+     如何运动(前进,转弯...)?
+
+(1.5)远程控制设计
+
+     如何控制(硬件+信息传输)?
+
+(1.6)取物功能设计
+
+     硬件+信息接收</code></pre>
+<h3 id="机器人测试">(2)机器人测试:</h3>
+<pre><code>(2.1)机器人功能测试
+
+(2.2)实地测试</code></pre>
+<h3 id="others">(3)OTHERS:</h3>
+<pre><code>(3.1)LogBook 记录开发进度</code></pre>
 
             </div>
 
