@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>TmzLity - Learn Programming Languages in Formal Systems using Coq</title>
+
+        <link href="../css/base.css" rel="stylesheet">
+        <link href="../css/blog.css" rel="stylesheet">
+        <link href="../css/syntax.css" rel="stylesheet" />
+        <!--         mathJax -->
+        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <div id="header">
+            <h1><a href="../">TmzLity</a></h1>
+            <div id="nav">
+                <a href="../">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../archive.html">Archive</a>
+                <a href="https://github.com/TxmszLou">Github</a>
+            </div>
+            <h2>Tags</h2>
+            <div id="taglist">
+                
+                  <a href="../tags/Ti84-83.html">Ti84-83 (7)</a>
+                
+                  <a href="../tags/spare talk.html">spare talk (3)</a>
+                
+                  <a href="../tags/robot.html">robot (1)</a>
+                
+                  <a href="../tags/reading.html">reading (1)</a>
+                
+                  <a href="../tags/development.html">development (1)</a>
+                
+                  <a href="../tags/Tinspire.html">Tinspire (1)</a>
+                
+                  <a href="../tags/Ti84/83.html">Ti84/83 (1)</a>
+                
+                  <a href="../tags/PL.html">PL (1)</a>
+                
+                  <a href="../tags/Emacs.html">Emacs (1)</a>
+                
+                  <a href="../tags/Coq.html">Coq (1)</a>
+                
+                  <a href="../tags/Android.html">Android (1)</a>
+                </ul></li>
+            </div>
+            <h2>Links</h2>
+        </div>
+
+
+        <div id="content">
+    <h1>Learn Programming Languages in Formal Systems using Coq</h1>
+<div class="info">
+    Posted on July 30, 2015
+    
+</div>
+<div class="info">
+    
+    Tags: <a href="../tags/PL.html">PL</a>, <a href="../tags/Coq.html">Coq</a>
+    
+</div>
+
+<p>How do we normally learn a new programming language? From my not-so-long experience, I typically will start off by reading tutorial articles or the “get started” blogs guides posted by varies of authors. By reading them and trying out the language on a REPL or with a compiler, I will expect myself of getting used to the language’s syntax, simple code’s semantics, its typical programming paradigms and possibly some of more detailed specifications such as evaluation rules, etc.</p>
+<p>It seems to be pretty simple to get to used to a new programming language isn’t it? Of course, “get used to” by no means is sufficient both for writing big projects and studying the language itself. But seems to be sufficient for writing simple codes to experience some of its language features.</p>
+<p>Things will get complex at this stage. If you are trying to write some more “interesting” projects, you will probably start to learn the language’s varies libraries, spend hours browsing StackOverflow to get things to work. Maybe you will start to implement varies of data structures and algorithms in this language (students tend to do so). These all seems to be great learning paths, but for a programming language theorist or a mathematician, the No.1 note on your to-do list will probably be get to know how do the language actually works, how to formalize the language and reason about the varies languages features, mostly not from a engineering standpoint.</p>
+<p>I was wrong previously stating “students tend to do so”, for students learning theory of programming languages, it is probably a great idea to formalize a simple language from scratch and reason about it. In fact, that is exactly how the PLT’s intro book Software Foundations by Benjamin C. Pierce did.</p>
+<p>I am reading the book recently and this series of blogs will be my notes and understandings while learning.</p>
+<hr />
+<p><a href="https://coq.inria.fr/">Coq</a> is a proof assistant that comes with a formal language that allows you to write formal mathematical definitions and to reason about them. With its powerful abilities of managing and automating proofs Coq is especially useful to formalize system and algorithms. Using Coq, we can formalize Imp (I’m sure it’s been talked a lot) - a simple imperative language.</p>
+<h3 id="dynamic-environments"><strong>Dynamic Environments</strong></h3>
+<p>The dynamic environment allows us to define variables such as X, Y, etc.</p>
+<h4 id="identifiers">Identifiers</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> id : <span class="dt">Type</span> :=
+  <span class="dt">Id</span>: nat -&gt; id.</code></pre></div>
+<p>Define few frequent used variable names</p>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> <span class="dt">X</span> : id := id <span class="fl">0.</span>
+<span class="dt">Definition</span> <span class="dt">Y</span> : id := id <span class="fl">1.</span>
+<span class="dt">Definition</span> <span class="dt">Z</span> : id := id <span class="fl">2.</span></code></pre></div>
+<p>Use sumbool to define computable equality for identifiers</p>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Theorem</span> eq_id_dec : forall id1 id2 : id, {id1 = id2} + {id1 &lt;&gt; id2}.</code></pre></div>
+<h4 id="state-map-from-identifiers-to-natural-numbers">State: map from identifiers to natural numbers</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> state := id -&gt; nat.</code></pre></div>
+<h4 id="a-empty-dynamic-environment-maps-every-identifiers-to-0">A empty dynamic environment: maps every identifiers to 0</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> empty_state := <span class="kw">fun</span> _ =&gt; <span class="dv">0</span></code></pre></div>
+<h4 id="change-the-dynamic-environment-by-binding-identifiers-to-numbers">Change the dynamic environment by binding identifiers to numbers</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> update (st:state) (x:id) (n:nat) :=
+  <span class="kw">fun</span> x' =&gt; <span class="kw">if</span> eq_id_dec x x' <span class="kw">then</span> n <span class="kw">else</span> st x'.</code></pre></div>
+<h3 id="arithmetic-expressions"><strong>Arithmetic Expressions</strong></h3>
+<p>Arithmetic expressions are inductively defined as the following:</p>
+<h4 id="type-definition-syntax">Type definition (syntax)</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> aexp : <span class="dt">Type</span> :=
+| <span class="dt">ANum</span>   : nat -&gt; aexp
+| <span class="dt">AId</span>    : id -&gt; aexp
+| <span class="dt">APlus</span>  : aexp -&gt; aexp -&gt; aexp
+| <span class="dt">AMinus</span> : aexp -&gt; aexp -&gt; aexp
+| <span class="dt">AMult</span>  : aexp -&gt; aexp -&gt; nat.</code></pre></div>
+<h4 id="operational-semantics-evaluation-rules">Operational Semantics (evaluation rules)</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Fixpoint</span> aeval (st : state) (a : aexp) : nat :=
+  <span class="kw">match</span> a <span class="kw">with</span>
+  | <span class="dt">ANum</span> n =&gt; n
+  | <span class="dt">AId</span> x =&gt; st x
+  | <span class="dt">APlus</span> a1 a2 =&gt; (aeval st a1) + (aeval st a2)
+  | <span class="dt">AMinus</span> a1 a2  =&gt; (aeval st a1) - (aeval st a2)
+  | <span class="dt">AMult</span> a1 a2 =&gt; (aeval st a1) * (aeval st a2)
+  end.</code></pre></div>
+<h3 id="boolean-expressions"><strong>Boolean Expressions</strong></h3>
+<p>Boolean Expressions (e.g. Truth and False, etc) are inductively defined as the following:</p>
+<h4 id="type-definition-syntax-1">Type definition (syntax)</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> bexp : <span class="dt">Type</span> :=
+| <span class="dt">BTrue</span>  : bexp
+| <span class="dt">BFalse</span> : bexp
+| <span class="dt">BEq</span>    : aexp -&gt; aexp -&gt; bexp
+| <span class="dt">BLe</span>    : aexp -&gt; aexp -&gt; bexp
+| <span class="dt">BNot</span>   : bexp -&gt; bexp
+| <span class="dt">BAnd</span>   : bexp -&gt; bexp -&gt; bexp.</code></pre></div>
+<h4 id="operational-semantics-evaluation-rules-1">Operational Semantics (evaluation rules)</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Fixpoint</span> beval (st : state) (b : bexp) : <span class="dt">bool</span> :=
+  <span class="kw">match</span> b <span class="kw">with</span>
+  | <span class="dt">BTrue</span>       =&gt; <span class="kw">true</span>
+  | <span class="dt">BFalse</span>      =&gt; <span class="kw">false</span>
+  | <span class="dt">BEq</span> a1 a2   =&gt; beq_nat (aeval st a1) (aeval st a2)
+  | <span class="dt">BLe</span> a1 a2   =&gt; ble_nat (aeval st a1) (aeval st a2)
+  | <span class="dt">BNot</span> b1     =&gt; negb (beval st b1)
+  | <span class="dt">BAnd</span> b1 b2  =&gt; andb (beval st b1) (beval st b2)
+  end.</code></pre></div>
+<h3 id="some-of-commands-statements"><strong>Some of commands (statements)</strong></h3>
+<p>At this point, there is no need to include tons of fancy commands, here only define few simple imperative style commands including <strong>Skip (do nothing)</strong>, <strong>Assignment</strong>, <strong>Sequence</strong>, <strong>Conditionals</strong>, <strong>While loop</strong>.</p>
+<h4 id="type-definition">Type definition</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> com : <span class="dt">Type</span> :=
+  | <span class="dt">CSkip</span> : com
+  | <span class="dt">CAss</span> : id -&gt; aexp -&gt; com
+  | <span class="dt">CSeq</span> : com -&gt; com -&gt; com
+  | <span class="dt">CIf</span> : bexp -&gt; com -&gt; com -&gt; com
+  | <span class="dt">CWhile</span> : bexp -&gt; com -&gt; com.</code></pre></div>
+<h4 id="notations---makes-imp-even-more-like-typical-imperative-languages">Notations - makes Imp even more like typical imperative languages</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Notation</span> <span class="st">&quot;'SKIP'&quot;</span> :=
+  CSkip<span class="kw">.</span>
+<span class="dt">Notation</span> <span class="st">&quot;x '::=' a&quot;</span> :=
+  (<span class="dt">CAss</span> x a) (at level <span class="dv">60</span>).
+<span class="dt">Notation</span> <span class="st">&quot;c1 ;; c2&quot;</span> :=
+  (<span class="dt">CSeq</span> c1 c2) (at level <span class="dv">80</span>, right associativity).
+<span class="dt">Notation</span> <span class="st">&quot;'WHILE' b 'DO' c 'END'&quot;</span> :=
+  (<span class="dt">CWhile</span> b c) (at level <span class="dv">80</span>, right associativity).
+<span class="dt">Notation</span> <span class="st">&quot;'IFB' c1 'THEN' c2 'ELSE' c3 'FI'&quot;</span> :=
+  (<span class="dt">CIf</span> c1 c2 c3) (at level <span class="dv">80</span>, right associativity).</code></pre></div>
+<h4 id="operational-semantics-evaluation-rules-2">Operational Semantics (evaluation rules)</h4>
+<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Reserved</span> <span class="dt">Notation</span> <span class="st">&quot;c1 '/' st '||' st'&quot;</span> (at level <span class="dv">40</span>, st at level <span class="dv">39</span>).
+<span class="dt">Inductive</span> ceval : com -&gt; state -&gt; state -&gt; <span class="dt">Prop</span> :=
+| <span class="dt">E_Skip</span> : forall st, <span class="dt">SKIP</span> / st || st
+| <span class="dt">E_Ass</span>  : forall st x a1 n, (aeval st a1 = n) -&gt; (x ::= a1) / st || (update st x n)
+| <span class="dt">E_Seq</span>  : forall c1 c2 st st' st'', (c1 / st || st') -&gt; (c2 / st' || st'') -&gt; (c1;;c2) / st || st''
+| <span class="dt">E_IfTrue</span> : forall b c1 c2 st st', (beval st b = <span class="kw">true</span>) -&gt; (c1 / st || st') -&gt; (<span class="dt">IFB</span> b <span class="dt">THEN</span> c1 <span class="dt">ELSE</span> c2 <span class="dt">FI</span>) / st || st'
+| <span class="dt">E_IfFalse</span>: forall b c1 c2 st st', (beval st b = <span class="kw">false</span>) -&gt; (c2 / st || st') -&gt; (<span class="dt">IFB</span> b <span class="dt">THEN</span> c1 <span class="dt">ELSE</span> c2 <span class="dt">FI</span>) / st || st'
+| <span class="dt">E_WhileEnd</span> : forall b c st, (beval st b = <span class="kw">false</span>) -&gt; (<span class="dt">WHILE</span> b <span class="dt">DO</span> c <span class="dt">END</span>) / st || st
+| <span class="dt">E_WhileLoop</span> : forall b c st st' st'', (beval st b = <span class="kw">true</span>) -&gt; (c / st || st') -&gt;
+                                           ((<span class="dt">WHILE</span> b <span class="dt">DO</span> c <span class="dt">END</span>) / st' || st'') -&gt;
+                                           (<span class="dt">WHILE</span> b <span class="dt">DO</span> c <span class="dt">END</span>) / st || st''
+where <span class="st">&quot;c1 '/' st '||' st'&quot;</span> := (ceval c1 st st').</code></pre></div>
+<p>More visually…</p>
+<p><span class="math display">\[\frac{}{\text{SIKP}\ /\ st\ \Downarrow st}\; (\text{E_Skip})\]</span></p>
+<p><span class="math display">\[\frac{\text{aeval}\ st\ a1 = n}{x \triangleq a1 /\ st\ \Downarrow (\text{update}\ st\ x\ n)}(\text{E_Ass})\]</span></p>
+<p><span class="math display">\[\frac{\begin{array}{c}c1 / st \Downarrow st'\\c2 / st' \Downarrow st''\end{array}}{c1;;c2 / st \Downarrow st''}(\text{E_Seq})\]</span></p>
+<p><span class="math display">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = true\\c1 / st \Downarrow st'\end{array}}{\text{IF b1 THEN c1 ELSE c2 FI} / st \Downarrow st'}(\text{E_IfTrue})\]</span></p>
+<p><span class="math display">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = false\\c2 / st \Downarrow st'\end{array}}{\text{IF b1 THEN c1 ELSE c2 FI} / st \Downarrow st'}(\text{E_IfFalse})\]</span></p>
+<p><span class="math display">\[\frac{\text{beval}\ st\ b1 = false}{\text{WHILE b DO c END} / st \Downarrow st}(\text{E_WhileEnd})\]</span></p>
+<p><span class="math display">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = true\\c / st \Downarrow st'\\\text{WHILE b DO c END} / st' \Downarrow st''\end{array}}{\text{WHILE b DO c END} / st \Downarrow st''}(\text{E_WhileLoop})\]</span></p>
+<hr />
+<p>With the formal language on the hand, we can then start off learning basic programming language theories.</p>
+
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'tmzlity'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    <div id="footer">
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>. </br>
+        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">TmzLity</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/TxmszLou" property="cc:attributionName" rel="cc:attributionURL">Sixuan Thomas Lou</a> is licensed under </br><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        <br />
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
+    </div>
+
+</div>
+
+
+    </body>
+</html>
