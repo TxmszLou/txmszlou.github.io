@@ -43,10 +43,6 @@ main = hakyll $ do
         route idRoute
         compile copyFileCompiler
 
-    match "CNAME" $ do
-        route idRoute
-        compile copyFileCompiler
-
     match "site.hs" $ do
         route idRoute
         compile copyFileCompiler
