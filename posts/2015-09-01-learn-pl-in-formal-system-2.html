@@ -113,7 +113,7 @@
     -&gt; <span class="dt">P</span> st
     -&gt; <span class="dt">Q</span> st.</code></pre></div>
 <p>Example of a valid Hoare Triple:</p>
-<p><span class="math display">\[\{ X = 0 \} \\\text{IFB BEq (AId X) (ANum 0) THEN}\ X \triangleq 1\ \text{ELSE}\ X \triangleq 2\ \text{FI}\\ \{ X = 1 \} \]</span></p>
+<p><span class="math display">\[\{ X = 0 \} \\\text{IFB BEq (AId X) (ANum 0) THEN}\ X \triangleq \text{ANum}\ 1\ \text{ELSE}\ X \triangleq \text{ANum}\ 2\ \text{FI}\\ \{ X = 1 \} \]</span></p>
 <hr />
 <h2 id="basic-proof-rules"><strong>Basic Proof Rules</strong></h2>
 <h3 id="hoare-triple-assignment-equivalence"><strong>Hoare Triple assignment equivalence</strong></h3>
@@ -135,7 +135,7 @@
 <h3 id="conditionals"><strong>Conditionals</strong></h3>
 <p><span class="math display">\[\frac{\begin{array}{c} \{ P \land b \} ~c1~ \{ Q \}\\ \{ P \land \neg b \} ~c2~ \{ Q \} \end{array}}{ \{ P \} ~\text{IFB b THEN c1 ELSE c2 FI}~ \{ Q \}}\ (\text{hoare_if})\]</span></p>
 <h3 id="loop"><strong>Loop</strong></h3>
-<p><span class="math display">\[\frac{\{P \land b\} ~c~ \{ P \}}{\{P\} $\text{WHILE b DO c END}~ \{P \land \neg b\}}\ (\text{hoare_while})\]</span></p>
+<p><span class="math display">\[\frac{\{P \land b\} ~c~ \{ P \}}{\{P\} ~\text{WHILE b DO c END}~ \{P \land \neg b\}}\ (\text{hoare_while})\]</span></p>
 <hr />
 <h2 id="generate-specification-proof-from-program"><strong>Generate specification (proof) from program</strong></h2>
 <p>The power of Hoare Logic comes when we compose Hoare Triples to generate a proof for a program.</p>
