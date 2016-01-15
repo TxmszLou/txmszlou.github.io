@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>TmzLity - 𝜫, 𝚺, 𝒲, a type theoretic interpretation</title>
+
+        <link href="../css/base.css" rel="stylesheet">
+        <link href="../css/blog.css" rel="stylesheet">
+        <link href="../css/syntax.css" rel="stylesheet" />
+        <!--         mathJax -->
+        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <div id="header">
+            <h1><a href="../">TmzLity</a></h1>
+            <div id="nav">
+                <a href="../">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../archive.html">Archive</a>
+                <a href="https://github.com/TxmszLou">Github</a>
+            </div>
+            <h2>Tags</h2>
+            <div id="taglist">
+                
+                  <a href="../tags/PL.html">PL (3)</a>
+                
+                  <a href="../tags/Coq.html">Coq (2)</a>
+                
+                  <a href="../tags/Mathematics.html">Mathematics (1)</a>
+                </ul></li>
+            </div>
+            <h2>Links</h2>
+        </div>
+
+
+        <div id="content">
+    <h1>𝜫, 𝚺, 𝒲, a type theoretic interpretation</h1>
+<div class="info">
+    Posted on January 14, 2016
+    
+</div>
+<div class="info">
+    
+    Tags: <a href="../tags/PL.html">PL</a>, <a href="../tags/Mathematics.html">Mathematics</a>
+    
+</div>
+
+<p>I found Per Martin-Löf’s notes[1] gives a really clear introduction to his intuitionistic type theory and set binders <span class="math inline">\(\Pi\)</span>, <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(W\)</span> for constructing dependent terms. Just want to type some of the interesting type binders up…</p>
+<h2 id="cartesian-product-of-a-family-of-sets">Cartesian product of a family of sets</h2>
+<p>i.e. <span class="math inline">\(\Pi\)</span>-Type, dependent product type, dependent function type, etc.</p>
+<p><span class="math display">\[\frac{
+    \begin{array}[b]{r}
+      (x \in A)\\
+      A\ set\quad B(x)\ set
+    \end{array} 
+}
+{\Pi_{x \in A} B(x)\ set}\text{($\Pi$-form)}
+\]</span></p>
+<p><span class="math display">\[\frac{
+    \begin{array}[b]{r}
+    (x \in A)\\
+    b(x) \in B(x)\ set
+    \end{array} 
+}
+{(\lambda x)b(x) \in \Pi_{x \in A} B(x)}\text{($\Pi$-intro)}
+\]</span></p>
+<p><span class="math display">\[
+\frac{c \in \Pi_{x \in A}B(x)\quad a \in A}{Ap(c, a) \in B(a)}\text{($\Pi$-elim)}\]</span></p>
+<p><span class="math display">\[\frac{
+    \begin{array}[b]{r}
+    (x \in A)\\
+    a \in A\quad B(x)\ set
+    \end{array} 
+}
+{Ap((\lambda x)b(x), a) = b(a) \in B(a)}\text{($\Pi$-compute)}
+\]</span></p>
+<p>where <span class="math inline">\(Ap(M,N)\)</span> are lambda application <span class="math inline">\(M N\)</span>.</p>
+<h2 id="disjoint-union-of-a-family-of-sets">Disjoint union of a family of sets</h2>
+<p>i.e. <span class="math inline">\(\Sigma\)</span>-Type, dependent pair type, etc.</p>
+<p><span class="math display">\[
+\frac{
+    \begin{array}[b]{r}
+        (x \in A)\\
+        A Set\quad B(x)\ set
+    \end{array}
+}
+{\Sigma_{x \in A}B(x)\ set}\text{($\Sigma$-form)}
+\]</span></p>
+<p><span class="math display">\[
+\frac{a \in A\quad b \in B(a)}{(a,b) \in \Sigma_{x \in A} B(x)}\text{($\Sigma$-intro)}
+\]</span></p>
+<p><span class="math display">\[
+\frac{
+    \begin{array}[b]{r}
+        (x \in A, y \in B(x))\\
+        c \in \Sigma_{x \in A}B(x) \quad d(x,y) \in C((x,y))
+    \end{array}
+}{E(c, (x,y)d(x,y)) \in C(c)}\text{($Sigma$-elim)}\]</span></p>
+<p><span class="math display">\[
+\frac{
+    \begin{array}[b]{r}
+        (x \in A, y \in B(x))\\
+        a \in A \quad b \in B(a) \quad d(x,y) \in C((x,y))
+    \end{array}
+}
+{E((a,b),(x,y)d(x,y)) = d(a,b) \in C((a,b))}\text{($\Sigma$-compute)}
+\]</span></p>
+<p>where the set <span class="math inline">\(C((x,y))\)</span> is a set family indexed by type <span class="math inline">\(\Sigma_{x \in A}B(x)\)</span>.</p>
+<p>The function <span class="math inline">\(E(t,(x,y)d(x,y))\)</span> first beta reduce <span class="math inline">\(t\)</span>, <span class="math display">\[t \rightsquigarrow_{(whnf)} (a,b)\]</span> then substitute <span class="math inline">\((a,b)\)</span> for <span class="math inline">\((x,y)\)</span> in <span class="math inline">\(d\)</span> (which depends on <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>), <span class="math display">\[E((a,b,(x,y)d(x,y)) \rightsquigarrow d(x,y)[a/x][b/y]\]</span></p>
+<h2 id="wellorderings">Wellorderings</h2>
+<p>i.e. <span class="math inline">\(\mathcal{W}\)</span>-Type, well-order induction principle, etc.</p>
+<p><span class="math display">\[
+\frac{
+    \begin{array}[b]{r}
+        (x \in A)\\
+        A\ set \quad B(x)\ set
+    \end{array}
+}{\mathcal{W}_{x \in A}B(x)\ set}\text{($\mathcal{W}$-form)}
+\]</span></p>
+<p><span class="math display">\[
+\frac
+    {a \in A \quad b \in B(a) \rightarrow \mathcal{W}_{x \in A}B(x)}
+    {sup(a,b) \in \mathcal{W}_{x \in A}B(x)}
+\text{($\mathcal{W}-intro$)}
+\]</span></p>
+<p><span class="math display">\[
+\frac
+    {
+        \begin{array}[b]{r}
+          (x \in A, \quad y \in B(x) \rightarrow \mathcal{W}_{x \in A}B(x), z \in \Pi_{v \in B(x)}C(Ap(y,v)))\\
+          c \in \mathcal{W}_{x \in A}B(x) \qquad \qquad \qquad \qquad d(x,y,z) \in C(sup(x,y))
+        \end{array}
+    }
+    {T(c, (x,y,z)d(x,y,z)) \in C(c)}
+\text{($\mathcal{W}$-elim)}
+\]</span></p>
+<p><span class="math display">\[
+\frac
+    {
+        \begin{array}[b]{r}
+          (x \in A, y \in B(x) \rightarrow \mathcal{W}_{x \in A}B(x), z \in \Pi_{v \in B(x)}C(Ap(y,v))\\
+          a \in A \qquad b \in B(a) \rightarrow \mathcal{W}_{x \in A}B(x) \qquad d(x,y,z) \in C(sup(x,y))
+        \end{array}
+    }
+    {
+        \begin{array}[b]{l}
+          T(sup(a,b), (x,y,z)d(x,y,z))\\
+          \quad = d(a,b,(\lambda v)T(Ap(b,v), (x,y,z)d(x,y,z))) \in C(sup(a,b))
+        \end{array}
+    }
+\text{($\mathcal{W}$-compute)}
+\]</span></p>
+<p>let <span class="math inline">\(c\)</span> be a element of a wellordering <span class="math inline">\(\mathcal{W}_{x \in A}B(x)\)</span>, then <span class="math inline">\(c\)</span> can be reduced into: <span class="math display">\[c \rightsquigarrow_{whnf} sup(a,b)\]</span> for some <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in \Pi_{v \in B(a)} sup(a_1, b_1)\)</span> which can be further reduced until <span class="math inline">\(B(a_n)\)</span> is empty.</p>
+<p>For example, <span class="math inline">\(\mathbb{N}\)</span> (natural number) type can be inductively defined as</p>
+<p><span class="math display">\[
+\begin{array}[b]{l}
+\text{Ind}\ \mathbb{N} : *\ \text{with}\\
+\quad Z : \mathbb{N}\\
+\quad S : \mathbb{N} \rightarrow \mathbb{N}\\
+\quad end
+\end{array}
+\]</span></p>
+<p>In well-order term, <span class="math inline">\(\mathbb{N} := \mathcal{W}_{x \in A}B(x)\)</span> where <span class="math inline">\(A\)</span> has two elements: <span class="math inline">\(Z\)</span> and <span class="math inline">\(S\)</span> and <span class="math inline">\(B(Z)\)</span> is empty and <span class="math inline">\(B(S)\)</span> has one element. When drawing out the structure of <span class="math inline">\(\mathbb{N}\)</span>, it is like a tree where each node has only one parent and one child (i.e. a linked list).</p>
+<p>The function <span class="math inline">\(f\)</span> be a rewrite of term <span class="math inline">\((\lambda v)T(c, (x,y,z)d(x,y,z))\)</span>, i.e. <span class="math inline">\(f(c) \equiv T(c,(x,y,z)d(x,y,z))\)</span>, then the term can be reduced as:</p>
+<p><span class="math display">\[
+\frac{
+c \rightsquigarrow sup(a,b)
+}{
+T(c,(x,y,z)d(x,y,z)) \rightsquigarrow d(a,b,(\lambda v)f(Ap(b,v)))
+}\]</span></p>
+<hr />
+<p>[1] Per Martin-Löf, <em>Intuitionistic Type Theory</em>, 1980</p>
+
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'tmzlity'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    <div id="footer">
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>. </br>
+        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">TmzLity</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/TxmszLou" property="cc:attributionName" rel="cc:attributionURL">Sixuan Thomas Lou</a> is licensed under </br><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        <br />
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
+    </div>
+
+</div>
+
+
+    </body>
+</html>
