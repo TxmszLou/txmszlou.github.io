@@ -27,6 +27,10 @@ pandocMathCompiler =
 --------------------------------------------------------------------------------
 main :: IO ()
 main = hakyll $ do
+    match "study.html" $ do
+        route idRoute
+        compile copyFileCompiler
+
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler

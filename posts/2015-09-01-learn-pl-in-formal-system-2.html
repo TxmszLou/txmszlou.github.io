@@ -47,22 +47,22 @@
 </div>
 
 <p>To begin with, let’s try to write some example programs with the simple imperative language defined in <a href="../posts/2015-07-30-learn-pl-in-formal-system-1.html">Learn Programming Languages in Formal Systems using Coq</a>.</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* adding X to Y *)</span>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* adding X to Y *)</span>
 <span class="dt">Definition</span> add_X_to_Y : com :=
     <span class="dt">X</span> ::= <span class="dt">ANum</span> <span class="dv">5</span>;;
     <span class="dt">Y</span> ::= <span class="dt">ANum</span> <span class="dv">7</span>;;
     <span class="dt">WHILE</span> <span class="dt">BNot</span> (<span class="dt">BEq</span> (<span class="dt">AId</span> <span class="dt">X</span>) (<span class="dt">ANum</span> <span class="dv">0</span>)) <span class="dt">DO</span>
         <span class="dt">Y</span> ::= <span class="dt">APlus</span> (<span class="dt">AId</span> <span class="dt">Y</span>) <span class="dv">1</span>;;
         <span class="dt">X</span> ::= <span class="dt">AMinus</span> (<span class="dt">AId</span> <span class="dt">X</span>) <span class="dv">1</span>;;
-    <span class="dt">END</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* swap X and Y *)</span>
+    <span class="dt">END</span></code></pre>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* swap X and Y *)</span>
 <span class="dt">Definition</span> swap_X_Y : com :=
 <span class="dt">X</span> ::= <span class="dt">ANum</span> <span class="dv">5</span>;;
 <span class="dt">Y</span> ::= <span class="dt">ANum</span> <span class="dv">7</span>;;
 
 <span class="dt">X</span> ::= <span class="dt">APlus</span> (<span class="dt">AId</span> <span class="dt">X</span>) (<span class="dt">AId</span> <span class="dt">Y</span>);;
 <span class="dt">Y</span> ::= <span class="dt">AMinus</span> (<span class="dt">AId</span> <span class="dt">X</span>) (<span class="dt">AId</span> <span class="dt">Y</span>);;
-<span class="dt">X</span> ::= <span class="dt">AMinus</span> (<span class="dt">AId</span> <span class="dt">X</span>) (<span class="dt">AId</span> <span class="dt">Y</span>)</code></pre></div>
+<span class="dt">X</span> ::= <span class="dt">AMinus</span> (<span class="dt">AId</span> <span class="dt">X</span>) (<span class="dt">AId</span> <span class="dt">Y</span>)</code></pre>
 <hr />
 <h2 id="program-analysis"><strong>Program analysis</strong></h2>
 <blockquote>
@@ -74,57 +74,57 @@
 <p>To make a more concrete sense of the idea of Hoare logic, why not dive into some basic concepts of Hoare Logic.</p>
 <hr />
 <h2 id="assertions"><strong>Assertions</strong></h2>
-<p>Firstly, we need a way to talk about properties that hold at the a particular <span class="math inline">\(state\)</span> of a program. In Coq, the way to define such a assertion is a <span class="math inline">\(Prop\)</span> indexed by <span class="math inline">\(state\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> <span class="dt">Assertion</span> := state -&gt; Prop<span class="kw">.</span></code></pre></div>
-<p>For example, we can specify a state where the value of identifier <span class="math inline">\(X\)</span> is number 5.</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> as_example : <span class="dt">Assertion</span> := <span class="kw">fun</span> st =&gt; st <span class="dt">X</span> = <span class="fl">5.</span></code></pre></div>
-<p>Of course, <span class="math inline">\(Assertions\)</span> follows the ordinary material implication and material equivalence as parameterized by <span class="math inline">\(state\)</span>.</p>
-<p><span class="math display">\[P \implies Q\ \ \text{iff}\ \ \forall st:state, P\ st \to Q\ st\]</span> <span class="math display">\[P \iff Q\ \ \text{iff}\ \ (P \implies Q) \land (Q \implies P)\]</span></p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* we will use the notation (P -&gt;&gt; Q) to express (assert_implies P Q) *)</span>
+<p>Firstly, we need a way to talk about properties that hold at the a particular <span class="math">\(state\)</span> of a program. In Coq, the way to define such a assertion is a <span class="math">\(Prop\)</span> indexed by <span class="math">\(state\)</span>:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> <span class="dt">Assertion</span> := state -&gt; Prop<span class="kw">.</span></code></pre>
+<p>For example, we can specify a state where the value of identifier <span class="math">\(X\)</span> is number 5.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> as_example : <span class="dt">Assertion</span> := <span class="kw">fun</span> st =&gt; st <span class="dt">X</span> = <span class="fl">5.</span></code></pre>
+<p>Of course, <span class="math">\(Assertions\)</span> follows the ordinary material implication and material equivalence as parameterized by <span class="math">\(state\)</span>.</p>
+<p><span class="math">\[P \implies Q\ \ \text{iff}\ \ \forall st:state, P\ st \to Q\ st\]</span> <span class="math">\[P \iff Q\ \ \text{iff}\ \ (P \implies Q) \land (Q \implies P)\]</span></p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* we will use the notation (P -&gt;&gt; Q) to express (assert_implies P Q) *)</span>
 <span class="dt">Definition</span> assert_implies (<span class="dt">P</span> <span class="dt">Q</span>: <span class="dt">Assertion</span>) : <span class="dt">Prop</span> :=
     forall st:state, <span class="dt">P</span> st -&gt; <span class="dt">Q</span> st.
 
 <span class="co">(* we will use the notation (P &lt;&lt;-&gt;&gt; Q) to express (assert_equiv P Q) *)</span>
 <span class="dt">Definition</span> assert_equiv : <span class="dt">Prop</span> :=
-    forall (<span class="dt">P</span> <span class="dt">Q</span>:<span class="dt">Assertion</span>), (assert_implies <span class="dt">P</span> <span class="dt">Q</span>) /\ (assert_implies <span class="dt">Q</span> <span class="dt">P</span>).</code></pre></div>
+    forall (<span class="dt">P</span> <span class="dt">Q</span>:<span class="dt">Assertion</span>), (assert_implies <span class="dt">P</span> <span class="dt">Q</span>) /\ (assert_implies <span class="dt">Q</span> <span class="dt">P</span>).</code></pre>
 <hr />
 <h2 id="hoare-triples"><strong>Hoare Triples</strong></h2>
-<p>Since we can are able to make <span class="math inline">\(Assertion\)</span> about certain <span class="math inline">\(state\)</span>, we can using two of them to express the effect of certain command - one of which make <span class="math inline">\(Assertion\)</span> on the <span class="math inline">\(state\)</span> before the execution of the command (i.e. <strong>precondition</strong>), the other make <span class="math inline">\(Assertion\)</span> on the <span class="math inline">\(state\)</span> after the execution (i.e. <strong>postcondition</strong>). A Hoare Triple is written as <span class="math inline">\(\{P\} ~c~ \{Q\}\)</span> where <span class="math inline">\(P\)</span> is the precondition and <span class="math inline">\(Q\)</span> is the postcondition of the command <span class="math inline">\(c\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* we will use the notation ({{P}} c {{Q}}) to express (hoare_triple P c Q) *)</span>
+<p>Since we can are able to make <span class="math">\(Assertion\)</span> about certain <span class="math">\(state\)</span>, we can using two of them to express the effect of certain command - one of which make <span class="math">\(Assertion\)</span> on the <span class="math">\(state\)</span> before the execution of the command (i.e. <strong>precondition</strong>), the other make <span class="math">\(Assertion\)</span> on the <span class="math">\(state\)</span> after the execution (i.e. <strong>postcondition</strong>). A Hoare Triple is written as <span class="math">\(\{P\} ~c~ \{Q\}\)</span> where <span class="math">\(P\)</span> is the precondition and <span class="math">\(Q\)</span> is the postcondition of the command <span class="math">\(c\)</span>.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* we will use the notation ({{P}} c {{Q}}) to express (hoare_triple P c Q) *)</span>
 <span class="dt">Definition</span> hoare_triple (<span class="dt">P</span>:<span class="dt">Assertion</span>) (c:com) (<span class="dt">Q</span>:<span class="dt">Assortion</span>) : <span class="dt">Prop</span> :=
     forall (st st':state),
        st / c || st'
     -&gt; <span class="dt">P</span> st
-    -&gt; <span class="dt">Q</span> st.</code></pre></div>
+    -&gt; <span class="dt">Q</span> st.</code></pre>
 <p>Example of a valid Hoare Triple:</p>
-<p><span class="math display">\[\{ X = 0 \} \\\text{IFB BEq (AId X) (ANum 0) THEN}\ X \triangleq \text{ANum}\ 1\ \text{ELSE}\ X \triangleq \text{ANum}\ 2\ \text{FI}\\ \{ X = 1 \} \]</span></p>
+<p><span class="math">\[\{ X = 0 \} \\\text{IFB BEq (AId X) (ANum 0) THEN}\ X \triangleq \text{ANum}\ 1\ \text{ELSE}\ X \triangleq \text{ANum}\ 2\ \text{FI}\\ \{ X = 1 \} \]</span></p>
 <hr />
 <h2 id="basic-proof-rules"><strong>Basic Proof Rules</strong></h2>
 <h3 id="hoare-triple-assignment-equivalence"><strong>Hoare Triple assignment equivalence</strong></h3>
-<p><span class="math display">\[\frac{}{\{ Q [X \mapsto a]\} (X \triangleq a) \{ Q \}}\ (\text{hoare_asgn})\]</span></p>
-<p>We use notation <span class="math inline">\(\{ Q [X \mapsto a]\}\)</span> to express that identifier <span class="math inline">\(X\)</span> is mapped to value <span class="math inline">\(a\)</span> under <span class="math inline">\(Assertion\)</span> Q.</p>
+<p><span class="math">\[\frac{}{\{ Q [X \mapsto a]\} (X \triangleq a) \{ Q \}}\ (\text{hoare_asgn})\]</span></p>
+<p>We use notation <span class="math">\(\{ Q [X \mapsto a]\}\)</span> to express that identifier <span class="math">\(X\)</span> is mapped to value <span class="math">\(a\)</span> under <span class="math">\(Assertion\)</span> Q.</p>
 <p>In Coq:</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> assn_sub (<span class="dt">P</span>:<span class="dt">Assertion</span>) (<span class="dt">X</span>:id) (a:aexp) : <span class="dt">Prop</span> :=
-    <span class="kw">fun</span> (st:state) =&gt; <span class="dt">P</span> (update st <span class="dt">X</span> (aeval st a)).</code></pre></div>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> assn_sub (<span class="dt">P</span>:<span class="dt">Assertion</span>) (<span class="dt">X</span>:id) (a:aexp) : <span class="dt">Prop</span> :=
+    <span class="kw">fun</span> (st:state) =&gt; <span class="dt">P</span> (update st <span class="dt">X</span> (aeval st a)).</code></pre>
 <h3 id="hoare-triple-consequence-getting-strong-precondition-weaker-postcondition"><strong>Hoare Triple Consequence</strong> : getting strong precondition / weaker postcondition</h3>
-<p><span class="math display">\[\frac{\begin{array}{c} \{P'\} ~c~ \{Q\}\\ P' \iff P\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons_pre_equiv})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c} \{P'\} ~c~ \{Q\}\\ P' \iff P\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons_pre_equiv})\]</span></p>
 <p><em>stronger precondition</em></p>
-<p><span class="math display">\[\frac{\begin{array}{c} \{P'\} ~c~ \{Q\}\\ P \implies P'\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons_pre})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c} \{P'\} ~c~ \{Q\}\\ P \implies P'\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons_pre})\]</span></p>
 <p><em>weaker postcondition</em></p>
-<p><span class="math display">\[\frac{\begin{array}{c} \{P\} ~c~ \{Q'\}\\ Q' \implies Q\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons_post})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c} \{P\} ~c~ \{Q'\}\\ Q' \implies Q\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons_post})\]</span></p>
 <p><em>generally</em></p>
-<p><span class="math display">\[\frac{\begin{array}{c} \{P'\} ~c~ \{Q'\}\\ P \implies P'\\ Q' \implies Q\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c} \{P'\} ~c~ \{Q'\}\\ P \implies P'\\ Q' \implies Q\end{array}}{\{P\} ~c~ \{Q\}}\ (\text{hoare_cons})\]</span></p>
 <h3 id="sequence"><strong>Sequence</strong></h3>
-<p><span class="math display">\[\frac{\begin{array}{c} \{ P \} ~c1~ \{ Q \}\\ \{ Q \} ~c2~ \{ R \} \end{array}}{\{ P \} ~c1; c2~ \{ R \}}\ (\text{hoare_seq})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c} \{ P \} ~c1~ \{ Q \}\\ \{ Q \} ~c2~ \{ R \} \end{array}}{\{ P \} ~c1; c2~ \{ R \}}\ (\text{hoare_seq})\]</span></p>
 <h3 id="conditionals"><strong>Conditionals</strong></h3>
-<p><span class="math display">\[\frac{\begin{array}{c} \{ P \land b \} ~c1~ \{ Q \}\\ \{ P \land \neg b \} ~c2~ \{ Q \} \end{array}}{ \{ P \} ~\text{IFB b THEN c1 ELSE c2 FI}~ \{ Q \}}\ (\text{hoare_if})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c} \{ P \land b \} ~c1~ \{ Q \}\\ \{ P \land \neg b \} ~c2~ \{ Q \} \end{array}}{ \{ P \} ~\text{IFB b THEN c1 ELSE c2 FI}~ \{ Q \}}\ (\text{hoare_if})\]</span></p>
 <h3 id="loop"><strong>Loop</strong></h3>
-<p><span class="math display">\[\frac{\{P \land b\} ~c~ \{ P \}}{\{P\} ~\text{WHILE b DO c END}~ \{P \land \neg b\}}\ (\text{hoare_while})\]</span></p>
+<p><span class="math">\[\frac{\{P \land b\} ~c~ \{ P \}}{\{P\} ~\text{WHILE b DO c END}~ \{P \land \neg b\}}\ (\text{hoare_while})\]</span></p>
 <hr />
 <h2 id="generate-specification-proof-from-program"><strong>Generate specification (proof) from program</strong></h2>
 <p>The power of Hoare Logic comes when we compose Hoare Triples to generate a proof for a program.</p>
 <p>An example from <a href="http://www.cis.upenn.edu/~bcpierce/sf/current/Hoare2.html">Software Foundations</a>.</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml">      {{ <span class="dt">True</span> }} ⇾
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">      {{ <span class="dt">True</span> }} ⇾
       {{ m = m }}
     <span class="dt">X</span> ::= m;;
       {{ <span class="dt">X</span> = m }} ⇾
@@ -141,10 +141,10 @@
         {{ <span class="dt">Z</span> - <span class="dt">X</span> = p - m }}
     <span class="dt">END</span>;
       {{ <span class="dt">Z</span> - <span class="dt">X</span> = p - m ∧ ¬ (<span class="dt">X</span> ≠ <span class="dv">0</span>) }} ⇾
-      {{ <span class="dt">Z</span> = p - m }} </code></pre></div>
+      {{ <span class="dt">Z</span> = p - m }} </code></pre>
 <p>Notice it is important to write annotation according to pre-defined proof rules so that the specification (proof) is provable. For example, strengthening the precondition and weakening the postcondition should follow classic logical rules, intermediate steps where assignments are present should follow the rule of (hoare_asgn), etc. If there is loop present, it vital to first find the loop’s invariant so that preconditions / postconditions are strong / weak enough.</p>
-<p>Below is another example of specification, where the factorial of identifier <span class="math inline">\(X\)</span> is calculated and stored in identifier <span class="math inline">\(Y\)</span>. The loop invariant here is <span class="math inline">\(Y \times X! = m!\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml">    {{ <span class="dt">X</span> = m }} -&gt;&gt;
+<p>Below is another example of specification, where the factorial of identifier <span class="math">\(X\)</span> is calculated and stored in identifier <span class="math">\(Y\)</span>. The loop invariant here is <span class="math">\(Y \times X! = m!\)</span>.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">    {{ <span class="dt">X</span> = m }} -&gt;&gt;
     {{  <span class="dv">1</span> * <span class="dt">X</span>! = m! }}
   <span class="dt">Y</span> ::= <span class="dv">1</span>;;
     {{ <span class="dt">Y</span> * <span class="dt">X</span>! = m! }}
@@ -157,7 +157,7 @@
        {{  <span class="dt">Y</span> * <span class="dt">X</span>! = m! }}
   <span class="dt">END</span>
     {{  <span class="dt">Y</span> * <span class="dt">X</span>! = m! /\ <span class="dt">X</span> = <span class="dv">0</span> }} -&gt;&gt;
-    {{ <span class="dt">Y</span> = m! }}</code></pre></div>
+    {{ <span class="dt">Y</span> = m! }}</code></pre>
 <p>Of course just as a demonstration, the application of Hoare Logic on Imp is nowhere near real world complicated languages. The theory of Hoare Logic can also be further extended as the language we formally defined gets more complicated. For example, the theory of <a href="https://en.wikipedia.org/wiki/Separation_logic">Separation Logic</a> was born to analyze languages where one can define functions, pointers, etc.</p>
 <hr />
 <h2 id="references"><strong>References</strong>:</h2>

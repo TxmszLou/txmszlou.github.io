@@ -46,10 +46,10 @@
     
 </div>
 
-<p>I found Per Martin-Löf’s notes[1] gives a really clear introduction to his intuitionistic type theory and set binders <span class="math inline">\(\Pi\)</span>, <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(W\)</span> for constructing dependent terms. Just want to type some of the interesting type binders up…</p>
+<p>I found Per Martin-Löf’s notes[1] gives a really clear introduction to his intuitionistic type theory and set binders <span class="math">\(\Pi\)</span>, <span class="math">\(\Sigma\)</span> and <span class="math">\(W\)</span> for constructing dependent terms. Just want to type some of the interesting type binders up…</p>
 <h2 id="cartesian-product-of-a-family-of-sets">Cartesian product of a family of sets</h2>
-<p>i.e. <span class="math inline">\(\Pi\)</span>-Type, dependent product type, dependent function type, etc.</p>
-<p><span class="math display">\[\frac{
+<p>i.e. <span class="math">\(\Pi\)</span>-Type, dependent product type, dependent function type, etc.</p>
+<p><span class="math">\[\frac{
     \begin{array}[b]{r}
       (x \in A)\\
       A\ set\quad B(x)\ set
@@ -57,7 +57,7 @@
 }
 {\Pi_{x \in A} B(x)\ set}\text{($\Pi$-form)}
 \]</span></p>
-<p><span class="math display">\[\frac{
+<p><span class="math">\[\frac{
     \begin{array}[b]{r}
     (x \in A)\\
     b(x) \in B(x)\ set
@@ -65,9 +65,9 @@
 }
 {(\lambda x)b(x) \in \Pi_{x \in A} B(x)}\text{($\Pi$-intro)}
 \]</span></p>
-<p><span class="math display">\[
+<p><span class="math">\[
 \frac{c \in \Pi_{x \in A}B(x)\quad a \in A}{Ap(c, a) \in B(a)}\text{($\Pi$-elim)}\]</span></p>
-<p><span class="math display">\[\frac{
+<p><span class="math">\[\frac{
     \begin{array}[b]{r}
     (x \in A)\\
     a \in A\quad B(x)\ set
@@ -75,10 +75,10 @@
 }
 {Ap((\lambda x)b(x), a) = b(a) \in B(a)}\text{($\Pi$-compute)}
 \]</span></p>
-<p>where <span class="math inline">\(Ap(M,N)\)</span> are lambda application <span class="math inline">\(M N\)</span>.</p>
+<p>where <span class="math">\(Ap(M,N)\)</span> are lambda application <span class="math">\(M N\)</span>.</p>
 <h2 id="disjoint-union-of-a-family-of-sets">Disjoint union of a family of sets</h2>
-<p>i.e. <span class="math inline">\(\Sigma\)</span>-Type, dependent pair type, etc.</p>
-<p><span class="math display">\[
+<p>i.e. <span class="math">\(\Sigma\)</span>-Type, dependent pair type, etc.</p>
+<p><span class="math">\[
 \frac{
     \begin{array}[b]{r}
         (x \in A)\\
@@ -87,17 +87,17 @@
 }
 {\Sigma_{x \in A}B(x)\ set}\text{($\Sigma$-form)}
 \]</span></p>
-<p><span class="math display">\[
+<p><span class="math">\[
 \frac{a \in A\quad b \in B(a)}{(a,b) \in \Sigma_{x \in A} B(x)}\text{($\Sigma$-intro)}
 \]</span></p>
-<p><span class="math display">\[
+<p><span class="math">\[
 \frac{
     \begin{array}[b]{r}
         (x \in A, y \in B(x))\\
         c \in \Sigma_{x \in A}B(x) \quad d(x,y) \in C((x,y))
     \end{array}
 }{E(c, (x,y)d(x,y)) \in C(c)}\text{($Sigma$-elim)}\]</span></p>
-<p><span class="math display">\[
+<p><span class="math">\[
 \frac{
     \begin{array}[b]{r}
         (x \in A, y \in B(x))\\
@@ -106,11 +106,11 @@
 }
 {E((a,b),(x,y)d(x,y)) = d(a,b) \in C((a,b))}\text{($\Sigma$-compute)}
 \]</span></p>
-<p>where the set <span class="math inline">\(C((x,y))\)</span> is a set family indexed by type <span class="math inline">\(\Sigma_{x \in A}B(x)\)</span>.</p>
-<p>The function <span class="math inline">\(E(t,(x,y)d(x,y))\)</span> first beta reduce <span class="math inline">\(t\)</span>, <span class="math display">\[t \rightsquigarrow_{(whnf)} (a,b)\]</span> then substitute <span class="math inline">\((a,b)\)</span> for <span class="math inline">\((x,y)\)</span> in <span class="math inline">\(d\)</span> (which depends on <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>), <span class="math display">\[E((a,b,(x,y)d(x,y)) \rightsquigarrow d(x,y)[a/x][b/y]\]</span></p>
+<p>where the set <span class="math">\(C((x,y))\)</span> is a set family indexed by type <span class="math">\(\Sigma_{x \in A}B(x)\)</span>.</p>
+<p>The function <span class="math">\(E(t,(x,y)d(x,y))\)</span> first beta reduce <span class="math">\(t\)</span>, <span class="math">\[t \rightsquigarrow_{(whnf)} (a,b)\]</span> then substitute <span class="math">\((a,b)\)</span> for <span class="math">\((x,y)\)</span> in <span class="math">\(d\)</span> (which depends on <span class="math">\(x\)</span> and <span class="math">\(y\)</span>), <span class="math">\[E((a,b,(x,y)d(x,y)) \rightsquigarrow d(x,y)[a/x][b/y]\]</span></p>
 <h2 id="wellorderings">Wellorderings</h2>
-<p>i.e. <span class="math inline">\(\mathcal{W}\)</span>-Type, well-order induction principle, etc.</p>
-<p><span class="math display">\[
+<p>i.e. <span class="math">\(\mathcal{W}\)</span>-Type, well-order induction principle, etc.</p>
+<p><span class="math">\[
 \frac{
     \begin{array}[b]{r}
         (x \in A)\\
@@ -118,13 +118,13 @@
     \end{array}
 }{\mathcal{W}_{x \in A}B(x)\ set}\text{($\mathcal{W}$-form)}
 \]</span></p>
-<p><span class="math display">\[
+<p><span class="math">\[
 \frac
     {a \in A \quad b \in B(a) \rightarrow \mathcal{W}_{x \in A}B(x)}
     {sup(a,b) \in \mathcal{W}_{x \in A}B(x)}
 \text{($\mathcal{W}-intro$)}
 \]</span></p>
-<p><span class="math display">\[
+<p><span class="math">\[
 \frac
     {
         \begin{array}[b]{r}
@@ -135,7 +135,7 @@
     {T(c, (x,y,z)d(x,y,z)) \in C(c)}
 \text{($\mathcal{W}$-elim)}
 \]</span></p>
-<p><span class="math display">\[
+<p><span class="math">\[
 \frac
     {
         \begin{array}[b]{r}
@@ -151,9 +151,9 @@
     }
 \text{($\mathcal{W}$-compute)}
 \]</span></p>
-<p>let <span class="math inline">\(c\)</span> be a element of a wellordering <span class="math inline">\(\mathcal{W}_{x \in A}B(x)\)</span>, then <span class="math inline">\(c\)</span> can be reduced into: <span class="math display">\[c \rightsquigarrow_{whnf} sup(a,b)\]</span> for some <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in \Pi_{v \in B(a)} sup(a_1, b_1)\)</span> which can be further reduced until <span class="math inline">\(B(a_n)\)</span> is empty.</p>
-<p>For example, <span class="math inline">\(\mathbb{N}\)</span> (natural number) type can be inductively defined as</p>
-<p><span class="math display">\[
+<p>let <span class="math">\(c\)</span> be a element of a wellordering <span class="math">\(\mathcal{W}_{x \in A}B(x)\)</span>, then <span class="math">\(c\)</span> can be reduced into: <span class="math">\[c \rightsquigarrow_{whnf} sup(a,b)\]</span> for some <span class="math">\(a\)</span> and <span class="math">\(b\)</span>, where <span class="math">\(a \in A\)</span> and <span class="math">\(b \in \Pi_{v \in B(a)} sup(a_1, b_1)\)</span> which can be further reduced until <span class="math">\(B(a_n)\)</span> is empty.</p>
+<p>For example, <span class="math">\(\mathbb{N}\)</span> (natural number) type can be inductively defined as</p>
+<p><span class="math">\[
 \begin{array}[b]{l}
 \text{Ind}\ \mathbb{N} : *\ \text{with}\\
 \quad Z : \mathbb{N}\\
@@ -161,9 +161,9 @@
 \quad end
 \end{array}
 \]</span></p>
-<p>In well-order term, <span class="math inline">\(\mathbb{N} := \mathcal{W}_{x \in A}B(x)\)</span> where <span class="math inline">\(A\)</span> has two elements: <span class="math inline">\(Z\)</span> and <span class="math inline">\(S\)</span> and <span class="math inline">\(B(Z)\)</span> is empty and <span class="math inline">\(B(S)\)</span> has one element. When drawing out the structure of <span class="math inline">\(\mathbb{N}\)</span>, it is like a tree where each node has only one parent and one child (i.e. a linked list).</p>
-<p>The function <span class="math inline">\(f\)</span> be a rewrite of term <span class="math inline">\((\lambda v)T(c, (x,y,z)d(x,y,z))\)</span>, i.e. <span class="math inline">\(f(c) \equiv T(c,(x,y,z)d(x,y,z))\)</span>, then the term can be reduced as:</p>
-<p><span class="math display">\[
+<p>In well-order term, <span class="math">\(\mathbb{N} := \mathcal{W}_{x \in A}B(x)\)</span> where <span class="math">\(A\)</span> has two elements: <span class="math">\(Z\)</span> and <span class="math">\(S\)</span> and <span class="math">\(B(Z)\)</span> is empty and <span class="math">\(B(S)\)</span> has one element. When drawing out the structure of <span class="math">\(\mathbb{N}\)</span>, it is like a tree where each node has only one parent and one child (i.e. a linked list).</p>
+<p>The function <span class="math">\(f\)</span> be a rewrite of term <span class="math">\((\lambda v)T(c, (x,y,z)d(x,y,z))\)</span>, i.e. <span class="math">\(f(c) \equiv T(c,(x,y,z)d(x,y,z))\)</span>, then the term can be reduced as:</p>
+<p><span class="math">\[
 \frac{
 c \rightsquigarrow sup(a,b)
 }{

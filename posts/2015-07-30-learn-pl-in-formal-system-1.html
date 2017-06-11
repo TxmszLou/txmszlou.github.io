@@ -56,51 +56,51 @@
 <h2 id="dynamic-environments"><strong>Dynamic Environments</strong></h2>
 <p>The dynamic environment allows us to define variables such as X, Y, etc.</p>
 <h3 id="identifiers">Identifiers</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> id : <span class="dt">Type</span> :=
-  <span class="dt">Id</span>: nat -&gt; id.</code></pre></div>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> id : <span class="dt">Type</span> :=
+  <span class="dt">Id</span>: nat -&gt; id.</code></pre>
 <p>Define few frequent used variable names</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> <span class="dt">X</span> : id := id <span class="fl">0.</span>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> <span class="dt">X</span> : id := id <span class="fl">0.</span>
 <span class="dt">Definition</span> <span class="dt">Y</span> : id := id <span class="fl">1.</span>
-<span class="dt">Definition</span> <span class="dt">Z</span> : id := id <span class="fl">2.</span></code></pre></div>
+<span class="dt">Definition</span> <span class="dt">Z</span> : id := id <span class="fl">2.</span></code></pre>
 <p>Use <a href="https://coq.inria.fr/library/Coq.Bool.Sumbool.html">sumbool</a> to define computable equality for identifiers</p>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Theorem</span> eq_id_dec : forall id1 id2 : id, {id1 = id2} + {id1 &lt;&gt; id2}.</code></pre></div>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Theorem</span> eq_id_dec : forall id1 id2 : id, {id1 = id2} + {id1 &lt;&gt; id2}.</code></pre>
 <h3 id="state-map-from-identifiers-to-natural-numbers">State: map from identifiers to natural numbers</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> state := id -&gt; nat.</code></pre></div>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> state := id -&gt; nat.</code></pre>
 <h3 id="a-empty-dynamic-environment-maps-every-identifiers-to-0">A empty dynamic environment: maps every identifiers to 0</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> empty_state := <span class="kw">fun</span> _ =&gt; <span class="dv">0</span></code></pre></div>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> empty_state := <span class="kw">fun</span> _ =&gt; <span class="dv">0</span></code></pre>
 <h3 id="change-the-dynamic-environment-by-binding-identifiers-to-numbers">Change the dynamic environment by binding identifiers to numbers</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> update (st:state) (x:id) (n:nat) :=
-  <span class="kw">fun</span> x' =&gt; <span class="kw">if</span> eq_id_dec x x' <span class="kw">then</span> n <span class="kw">else</span> st x'.</code></pre></div>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Definition</span> update (st:state) (x:id) (n:nat) :=
+  <span class="kw">fun</span> x' =&gt; <span class="kw">if</span> eq_id_dec x x' <span class="kw">then</span> n <span class="kw">else</span> st x'.</code></pre>
 <h2 id="arithmetic-expressions"><strong>Arithmetic Expressions</strong></h2>
 <p>Arithmetic expressions are inductively defined as the following:</p>
 <h3 id="type-definition-syntax">Type definition (syntax)</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> aexp : <span class="dt">Type</span> :=
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> aexp : <span class="dt">Type</span> :=
 | <span class="dt">ANum</span>   : nat -&gt; aexp
 | <span class="dt">AId</span>    : id -&gt; aexp
 | <span class="dt">APlus</span>  : aexp -&gt; aexp -&gt; aexp
 | <span class="dt">AMinus</span> : aexp -&gt; aexp -&gt; aexp
-| <span class="dt">AMult</span>  : aexp -&gt; aexp -&gt; nat.</code></pre></div>
+| <span class="dt">AMult</span>  : aexp -&gt; aexp -&gt; nat.</code></pre>
 <h3 id="operational-semantics-evaluation-rules">Operational Semantics (evaluation rules)</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Fixpoint</span> aeval (st : state) (a : aexp) : nat :=
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Fixpoint</span> aeval (st : state) (a : aexp) : nat :=
   <span class="kw">match</span> a <span class="kw">with</span>
   | <span class="dt">ANum</span> n =&gt; n
   | <span class="dt">AId</span> x =&gt; st x
   | <span class="dt">APlus</span> a1 a2 =&gt; (aeval st a1) + (aeval st a2)
   | <span class="dt">AMinus</span> a1 a2  =&gt; (aeval st a1) - (aeval st a2)
   | <span class="dt">AMult</span> a1 a2 =&gt; (aeval st a1) * (aeval st a2)
-  end.</code></pre></div>
+  end.</code></pre>
 <h2 id="boolean-expressions"><strong>Boolean Expressions</strong></h2>
 <p>Boolean Expressions (e.g. Truth and False, etc) are inductively defined as the following:</p>
 <h3 id="type-definition-syntax-1">Type definition (syntax)</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> bexp : <span class="dt">Type</span> :=
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> bexp : <span class="dt">Type</span> :=
 | <span class="dt">BTrue</span>  : bexp
 | <span class="dt">BFalse</span> : bexp
 | <span class="dt">BEq</span>    : aexp -&gt; aexp -&gt; bexp
 | <span class="dt">BLe</span>    : aexp -&gt; aexp -&gt; bexp
 | <span class="dt">BNot</span>   : bexp -&gt; bexp
-| <span class="dt">BAnd</span>   : bexp -&gt; bexp -&gt; bexp.</code></pre></div>
+| <span class="dt">BAnd</span>   : bexp -&gt; bexp -&gt; bexp.</code></pre>
 <h3 id="operational-semantics-evaluation-rules-1">Operational Semantics (evaluation rules)</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Fixpoint</span> beval (st : state) (b : bexp) : <span class="dt">bool</span> :=
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Fixpoint</span> beval (st : state) (b : bexp) : <span class="dt">bool</span> :=
   <span class="kw">match</span> b <span class="kw">with</span>
   | <span class="dt">BTrue</span>       =&gt; <span class="kw">true</span>
   | <span class="dt">BFalse</span>      =&gt; <span class="kw">false</span>
@@ -108,18 +108,18 @@
   | <span class="dt">BLe</span> a1 a2   =&gt; ble_nat (aeval st a1) (aeval st a2)
   | <span class="dt">BNot</span> b1     =&gt; negb (beval st b1)
   | <span class="dt">BAnd</span> b1 b2  =&gt; andb (beval st b1) (beval st b2)
-  end.</code></pre></div>
+  end.</code></pre>
 <h2 id="some-of-commands-statements"><strong>Some of commands (statements)</strong></h2>
 <p>At this point, there is no need to include tons of fancy commands, here only define few simple imperative style commands including <strong>Skip (do nothing)</strong>, <strong>Assignment</strong>, <strong>Sequence</strong>, <strong>Conditionals</strong>, <strong>While loop</strong>.</p>
 <h3 id="type-definition">Type definition</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> com : <span class="dt">Type</span> :=
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Inductive</span> com : <span class="dt">Type</span> :=
   | <span class="dt">CSkip</span> : com
   | <span class="dt">CAss</span> : id -&gt; aexp -&gt; com
   | <span class="dt">CSeq</span> : com -&gt; com -&gt; com
   | <span class="dt">CIf</span> : bexp -&gt; com -&gt; com -&gt; com
-  | <span class="dt">CWhile</span> : bexp -&gt; com -&gt; com.</code></pre></div>
+  | <span class="dt">CWhile</span> : bexp -&gt; com -&gt; com.</code></pre>
 <h3 id="notations---makes-imp-even-more-like-typical-imperative-languages">Notations - makes Imp even more like typical imperative languages</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Notation</span> <span class="st">&quot;'SKIP'&quot;</span> :=
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Notation</span> <span class="st">&quot;'SKIP'&quot;</span> :=
   CSkip<span class="kw">.</span>
 <span class="co">(* we will write ::= symbol as \triangleq in LaTeX *)</span>
 <span class="dt">Notation</span> <span class="st">&quot;x '::=' a&quot;</span> :=
@@ -129,9 +129,9 @@
 <span class="dt">Notation</span> <span class="st">&quot;'WHILE' b 'DO' c 'END'&quot;</span> :=
   (<span class="dt">CWhile</span> b c) (at level <span class="dv">80</span>, right associativity).
 <span class="dt">Notation</span> <span class="st">&quot;'IFB' c1 'THEN' c2 'ELSE' c3 'FI'&quot;</span> :=
-  (<span class="dt">CIf</span> c1 c2 c3) (at level <span class="dv">80</span>, right associativity).</code></pre></div>
+  (<span class="dt">CIf</span> c1 c2 c3) (at level <span class="dv">80</span>, right associativity).</code></pre>
 <h3 id="operational-semantics-evaluation-rules-2">Operational Semantics (evaluation rules)</h3>
-<div class="sourceCode"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Reserved</span> <span class="dt">Notation</span> <span class="st">&quot;c1 '/' st '||' st'&quot;</span> (at level <span class="dv">40</span>, st at level <span class="dv">39</span>).
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">Reserved</span> <span class="dt">Notation</span> <span class="st">&quot;c1 '/' st '||' st'&quot;</span> (at level <span class="dv">40</span>, st at level <span class="dv">39</span>).
 <span class="dt">Inductive</span> ceval : com -&gt; state -&gt; state -&gt; <span class="dt">Prop</span> :=
 | <span class="dt">E_Skip</span> : forall st, <span class="dt">SKIP</span> / st || st
 | <span class="dt">E_Ass</span>  : forall st x a1 n, (aeval st a1 = n) -&gt; (x ::= a1) / st || (update st x n)
@@ -142,15 +142,15 @@
 | <span class="dt">E_WhileLoop</span> : forall b c st st' st'', (beval st b = <span class="kw">true</span>) -&gt; (c / st || st') -&gt;
                                            ((<span class="dt">WHILE</span> b <span class="dt">DO</span> c <span class="dt">END</span>) / st' || st'') -&gt;
                                            (<span class="dt">WHILE</span> b <span class="dt">DO</span> c <span class="dt">END</span>) / st || st''
-where <span class="st">&quot;c1 '/' st '||' st'&quot;</span> := (ceval c1 st st').</code></pre></div>
+where <span class="st">&quot;c1 '/' st '||' st'&quot;</span> := (ceval c1 st st').</code></pre>
 <p>More visually…</p>
-<p><span class="math display">\[\frac{}{\text{SIKP}\ /\ st\ \Downarrow st}\; (\text{E_Skip})\]</span></p>
-<p><span class="math display">\[\frac{\text{aeval}\ st\ a1 = n}{x \triangleq a1 /\ st\ \Downarrow (\text{update}\ st\ x\ n)}(\text{E_Ass})\]</span></p>
-<p><span class="math display">\[\frac{\begin{array}{c}c1 / st \Downarrow st'\\c2 / st' \Downarrow st''\end{array}}{c1;;c2 / st \Downarrow st''}(\text{E_Seq})\]</span></p>
-<p><span class="math display">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = true\\c1 / st \Downarrow st'\end{array}}{\text{IF b1 THEN c1 ELSE c2 FI} / st \Downarrow st'}(\text{E_IfTrue})\]</span></p>
-<p><span class="math display">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = false\\c2 / st \Downarrow st'\end{array}}{\text{IF b1 THEN c1 ELSE c2 FI} / st \Downarrow st'}(\text{E_IfFalse})\]</span></p>
-<p><span class="math display">\[\frac{\text{beval}\ st\ b1 = false}{\text{WHILE b DO c END} / st \Downarrow st}(\text{E_WhileEnd})\]</span></p>
-<p><span class="math display">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = true\\c / st \Downarrow st'\\\text{WHILE b DO c END} / st' \Downarrow st''\end{array}}{\text{WHILE b DO c END} / st \Downarrow st''}(\text{E_WhileLoop})\]</span></p>
+<p><span class="math">\[\frac{}{\text{SIKP}\ /\ st\ \Downarrow st}\; (\text{E_Skip})\]</span></p>
+<p><span class="math">\[\frac{\text{aeval}\ st\ a1 = n}{x \triangleq a1 /\ st\ \Downarrow (\text{update}\ st\ x\ n)}(\text{E_Ass})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c}c1 / st \Downarrow st'\\c2 / st' \Downarrow st''\end{array}}{c1;;c2 / st \Downarrow st''}(\text{E_Seq})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = true\\c1 / st \Downarrow st'\end{array}}{\text{IF b1 THEN c1 ELSE c2 FI} / st \Downarrow st'}(\text{E_IfTrue})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = false\\c2 / st \Downarrow st'\end{array}}{\text{IF b1 THEN c1 ELSE c2 FI} / st \Downarrow st'}(\text{E_IfFalse})\]</span></p>
+<p><span class="math">\[\frac{\text{beval}\ st\ b1 = false}{\text{WHILE b DO c END} / st \Downarrow st}(\text{E_WhileEnd})\]</span></p>
+<p><span class="math">\[\frac{\begin{array}{c}\text{beval}\ st\ b1 = true\\c / st \Downarrow st'\\\text{WHILE b DO c END} / st' \Downarrow st''\end{array}}{\text{WHILE b DO c END} / st \Downarrow st''}(\text{E_WhileLoop})\]</span></p>
 <hr />
 <p>With the formal language on the hand, we can then start off learning basic programming language theories.</p>
 <hr />
