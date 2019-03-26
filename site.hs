@@ -14,7 +14,7 @@ tagCount = 10
 
 -------------------------------------------------------------------------------
 pandocMathCompiler =
-  let mathExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash,
+  let mathExtensions = [Ext_tex_math_double_backslash,
                        Ext_latex_macros]
       defaultExtensions = writerExtensions defaultHakyllWriterOptions
       newExtensions = Prelude.foldr S.insert defaultExtensions mathExtensions
@@ -47,12 +47,16 @@ main = hakyll $ do
         route idRoute
         compile copyFileCompiler
 
+    match "files/*" $ do
+        route idRoute
+        compile copyFileCompiler
+
     match "site.hs" $ do
         route idRoute
         compile copyFileCompiler
 
     -- build up tags
-    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+    tags <- buildTags "posts/**" (fromCapture "tags/*.html")
 
     let myContext = listField "globalTags" tagCtx tagsAsItems `mappend`
                     defaultContext
@@ -67,7 +71,7 @@ main = hakyll $ do
         tagCtx = field "tag" (return . fst . itemBody) `mappend`
                  field "postCount" (return . show . length . snd . itemBody)
 
-    match "posts/*" $ do
+    match "posts/**" $ do
         route $ setExtension "html"
         compile $ pandocMathCompiler
           -- underlying <- getUnderlying
@@ -125,7 +129,7 @@ main = hakyll $ do
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- recentFirst =<< loadAll "posts/**"
             let archiveCtx =
                     listField "posts" postsCtx (return posts) `mappend`
                     constField "title" "Archives"            `mappend`
