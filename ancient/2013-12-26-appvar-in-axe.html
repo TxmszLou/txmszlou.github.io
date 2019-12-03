@@ -23,11 +23,7 @@
             <h2>Tags</h2>
             <div id="taglist">
                 
-                  <a href="/tags/programming-language.html">programming-language (3)</a>
-                
-                  <a href="/tags/mathematics.html">mathematics (2)</a>
-                
-                  <a href="/tags/coq.html">coq (2)</a>
+                  <a href="/tags/mathematics.html">mathematics (1)</a>
                 
                   <a href="/tags/complex-geometry.html">complex-geometry (1)</a>
                 </ul></li>
@@ -58,12 +54,12 @@
 <!--more-->
 <h1 id="x02-how-to-use-appvar">0x02 how to use appvar?</h1>
 <h2 id="access">Access</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>)<span class="ot">-&gt;</span><span class="dt">Pointer</span>
-<span class="dv">1</span><span class="ot">-&gt;</span><span class="dt">A</span> <span class="co">-- 将数值1通过指针Pointer储存入&quot;appvAPPVAR&quot;中的第一个字节,只当appvAPPVAR在RAM中才有效</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>)<span class="ot">-&gt;</span><span class="dt">Pointer</span>
+<span class="dv">1</span><span class="ot">-&gt;</span><span class="dt">A</span> <span class="co">-- 将数值1通过指针Pointer储存入&quot;appvAPPVAR&quot;中的第一个字节,只当appvAPPVAR在RAM中才有效</span></code></pre></div>
 <p>“appvAPPVAR”为以创建的appvar名字</p>
 <p>Pointer为创建的指向“appvAPPVAR”的指针</p>
 <h2 id="create">Create</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- 创建appvar</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- 创建appvar</span>
 <span class="dt">GetCalc</span>(<span class="st">&quot;appvAPPVAR&quot;</span>,<span class="dt">Size</span>)<span class="ot">-&gt;</span><span class="dt">Pointer</span> <span class="co">-- 创建大小为Size的名为&quot;appvAPPVAR&quot;的appvar,Size 单位为字节</span>
 
 <span class="co">-- 复制现有appvar到Y0,并将指针A指向新创建的appvar</span>
@@ -72,9 +68,9 @@
 
 <span class="co">-- 将 appvar 归档 &amp; 取回RAM</span>
 <span class="dt">Archive</span> <span class="st">&quot;appvAPPVAR&quot;</span>
-<span class="dt">UnArchive</span> <span class="st">&quot;appvAPPVAR&quot;</span></code></pre>
+<span class="dt">UnArchive</span> <span class="st">&quot;appvAPPVAR&quot;</span></code></pre></div>
 <h2 id="delete">Delete</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">DelVar</span> <span class="st">&quot;appvAPPVAR&quot;</span> <span class="co">--只当&quot;appvAPPVAR&quot;在RAM中有效</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">DelVar</span> <span class="st">&quot;appvAPPVAR&quot;</span> <span class="co">--只当&quot;appvAPPVAR&quot;在RAM中有效</span></code></pre></div>
 
 
     <div id="disqus_thread"></div>
